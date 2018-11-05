@@ -46,6 +46,8 @@ spring:
     host: localhost
     port: 6379
     database: 0
+  thymeleaf:
+    cache: false
 mybatis:
   type-aliases-package: com.yibo.miaosha.domain
   mapper-locations: classpath:/mapper/*.xml
