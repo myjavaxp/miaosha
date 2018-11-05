@@ -1,8 +1,6 @@
 package com.yibo.miaosha.controller;
 
-import com.yibo.miaosha.domain.User;
 import com.yibo.miaosha.redis.RedisService;
-import com.yibo.miaosha.redis.key.UserKey;
 import com.yibo.miaosha.result.CodeMsg;
 import com.yibo.miaosha.result.Result;
 import org.slf4j.Logger;
@@ -38,16 +36,5 @@ public class DemoController {
     public String page(Model model) {
         model.addAttribute("name", "Yibo");
         return "hello";
-    }
-
-    @GetMapping("/redis")
-    @ResponseBody
-    public Result<User> redis() {
-        redisService.set(UserKey.ID, "key1", new User(1, "哈哈"));
-        redisService.set("key2", "字符串");
-        redisService.set("key3", 123);
-        LOGGER.info("key2:{}", redisService.get("key2", String.class));
-        LOGGER.info("key3:{}", redisService.get("key3", Integer.class));
-        return Result.success(redisService.get(UserKey.ID, "key1", User.class));
     }
 }
