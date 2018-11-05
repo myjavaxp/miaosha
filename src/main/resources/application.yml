@@ -1,0 +1,60 @@
+spring:
+  application:
+    name: miaosha
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/hrm_db?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+    druid:
+      web-stat-filter:
+        url-pattern: /*
+        profile-enable: true
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      stat-view-servlet:
+        url-pattern: /druid/*
+        login-username: ${spring.datasource.username}
+        login-password: ${spring.datasource.password}
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filters: slf4j,stat,wall
+      filter:
+        slf4j:
+          enabled: true
+      aop-patterns: com.yibo.miaosha.dao.*
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 50MB
+  redis:
+    lettuce:
+      pool:
+        max-active: 2000
+        max-idle: 500
+        min-idle: 50
+        max-wait: 100000ms
+    timeout: 3000ms
+    host: localhost
+    port: 6379
+    database: 0
+mybatis:
+  type-aliases-package: com.yibo.miaosha.domain
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    cache-enabled: true
+logging:
+  file: /Users/yibo/Logs/miaosha.log
+  level:
+    root: info
+    com.yibo.miaosha.dao: debug
+server:
+  port: 80
