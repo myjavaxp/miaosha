@@ -1,6 +1,5 @@
 package com.yibo.miaosha.controller;
 
-import com.yibo.miaosha.redis.RedisService;
 import com.yibo.miaosha.result.Result;
 import com.yibo.miaosha.service.MiaoshaUserService;
 import com.yibo.miaosha.vo.LoginVo;
@@ -8,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -23,15 +23,12 @@ public class LoginController {
 
     private final MiaoshaUserService userService;
 
-    private final RedisService redisService;
-
     @Autowired
-    public LoginController(MiaoshaUserService userService, RedisService redisService) {
+    public LoginController(MiaoshaUserService userService) {
         this.userService = userService;
-        this.redisService = redisService;
     }
 
-    @RequestMapping("/to_login")
+    @GetMapping("/to_login")
     public String toLogin() {
         return "login";
     }
