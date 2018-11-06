@@ -31,7 +31,7 @@ CREATE TABLE `goods` (
   `goods_price` decimal(10,2) DEFAULT '0.00',
   `goods_stock` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +40,7 @@ CREATE TABLE `goods` (
 
 LOCK TABLES `goods` WRITE;
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
+INSERT INTO `goods` VALUES (1,'iPhone X','Apple iPhone X','/img/iphonex.png','Apple iPhone X',8888.00,1000),(2,'Mate 20','华为Mate 20','/img/mate10.png','华为Mate 20',6666.00,100);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -58,7 +59,7 @@ CREATE TABLE `miaosha_goods` (
   `start_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,6 +68,7 @@ CREATE TABLE `miaosha_goods` (
 
 LOCK TABLES `miaosha_goods` WRITE;
 /*!40000 ALTER TABLE `miaosha_goods` DISABLE KEYS */;
+INSERT INTO `miaosha_goods` VALUES (1,1,1000.00,498,'2018-11-06 15:06:00','2018-12-06 06:09:05');
 /*!40000 ALTER TABLE `miaosha_goods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +85,7 @@ CREATE TABLE `miaosha_order` (
   `order_id` bigint(20) NOT NULL,
   `goods_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,6 +94,7 @@ CREATE TABLE `miaosha_order` (
 
 LOCK TABLES `miaosha_order` WRITE;
 /*!40000 ALTER TABLE `miaosha_order` DISABLE KEYS */;
+INSERT INTO `miaosha_order` VALUES (1,13888888888,1,1);
 /*!40000 ALTER TABLE `miaosha_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,12 +142,13 @@ CREATE TABLE `order_info` (
   `delivery_addr_id` bigint(20) NOT NULL,
   `goods_name` varchar(32) DEFAULT NULL,
   `goods_count` int(11) DEFAULT NULL,
+  `goods_price` decimal(10,2) DEFAULT NULL,
   `order_channel` tinyint(4) DEFAULT '0' COMMENT '1-pc,2-android,3-ios',
   `status` tinyint(4) DEFAULT '0' COMMENT '0-新建，1-已支付，2-已发货，3-已收货，4-已退款，5-已完成',
   `create_date` datetime DEFAULT CURRENT_TIMESTAMP,
   `pay_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,6 +157,7 @@ CREATE TABLE `order_info` (
 
 LOCK TABLES `order_info` WRITE;
 /*!40000 ALTER TABLE `order_info` DISABLE KEYS */;
+INSERT INTO `order_info` VALUES (1,13888888888,1,0,'iPhone X',1,1000.00,1,0,'2018-11-06 17:00:09',NULL);
 /*!40000 ALTER TABLE `order_info` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -165,4 +170,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-11-06 13:47:07
+-- Dump completed on 2018-11-06 17:04:49

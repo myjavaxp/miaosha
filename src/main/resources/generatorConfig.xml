@@ -32,13 +32,6 @@
         <javaClientGenerator targetPackage="com.yibo.miaosha.dao" type="XMLMAPPER" targetProject=".">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
-
-        <table schema="miaosha" tableName="goods" enableCountByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table schema="miaosha" tableName="miaosha_goods" enableCountByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" enableUpdateByExample="false"/>
-        <table schema="miaosha" tableName="miaosha_order" enableCountByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" enableUpdateByExample="false"/>
         <table schema="miaosha" tableName="order_info" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false"/>
     </context>

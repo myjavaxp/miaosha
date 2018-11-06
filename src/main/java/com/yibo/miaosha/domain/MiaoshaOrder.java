@@ -9,6 +9,15 @@ public class MiaoshaOrder {
 
     private Long goodsId;
 
+    public MiaoshaOrder(Long userId, Long orderId, Long goodsId) {
+        this.userId = userId;
+        this.orderId = orderId;
+        this.goodsId = goodsId;
+    }
+
+    public MiaoshaOrder() {
+    }
+
     public Long getId() {
         return id;
     }

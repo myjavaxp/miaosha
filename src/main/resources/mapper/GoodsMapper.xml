@@ -144,4 +144,9 @@
                  right join goods g on mg.goods_id = g.id
         where g.id = #{id}
     </select>
+    <update id="reduceStock" parameterType="com.yibo.miaosha.vo.GoodsVo">
+        update miaosha_goods
+        set stock_count = stock_count - 1
+        where goods_id = #{id}
+    </update>
 </mapper>

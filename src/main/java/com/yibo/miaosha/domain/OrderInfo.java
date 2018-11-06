@@ -1,5 +1,6 @@
 package com.yibo.miaosha.domain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class OrderInfo {
@@ -14,6 +15,8 @@ public class OrderInfo {
     private String goodsName;
 
     private Integer goodsCount;
+
+    private BigDecimal goodsPrice;
 
     private Byte orderChannel;
 
@@ -69,6 +72,14 @@ public class OrderInfo {
 
     public void setGoodsCount(Integer goodsCount) {
         this.goodsCount = goodsCount;
+    }
+
+    public BigDecimal getGoodsPrice() {
+        return goodsPrice;
+    }
+
+    public void setGoodsPrice(BigDecimal goodsPrice) {
+        this.goodsPrice = goodsPrice;
     }
 
     public Byte getOrderChannel() {
