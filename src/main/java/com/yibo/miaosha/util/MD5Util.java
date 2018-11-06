@@ -1,9 +1,8 @@
 package com.yibo.miaosha.util;
 
-import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 public class MD5Util {
 
@@ -11,7 +10,6 @@ public class MD5Util {
 
     private static String inputPassToFormPass(String inputPass) {
         String str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(5) + salt.charAt(4);
-        System.out.println(str);
         return md5(str);
     }
 
@@ -20,30 +18,33 @@ public class MD5Util {
         return md5(str);
     }
 
-    public static String inputPassToDbPass(String inputPass, String saltDB) {
+    public static String inputPassToDbPass(String inputPass, String dbSalt) {
         String formPass = inputPassToFormPass(inputPass);
-        return formPassToDBPass(formPass, saltDB);
+        return formPassToDBPass(formPass, dbSalt);
     }
 
     private static String md5(String src) {
-        //定义一个字节数组
-        byte[] secretBytes = null;
+        String encodeString = "";
         try {
-            // 生成一个MD5加密计算摘要
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            //对字符串进行加密
-            md.update(src.getBytes());
-            //获得加密后的数据
-            secretBytes = md.digest();
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(src.getBytes(StandardCharsets.UTF_8));
+            encodeString = byte2Hex(messageDigest.digest());
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        //将加密后的数据转换为16进制数字
-        StringBuilder md5code = new StringBuilder(new BigInteger(1, Objects.requireNonNull(secretBytes)).toString(16));// 16进制数字
-        // 如果生成数字未满32位，需要前面补0
-        for (int i = 0; i < 32 - md5code.length(); i++) {
-            md5code.insert(0, "0");
+        return encodeString;
+    }
+
+    private static String byte2Hex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        String t;
+        for (byte b : bytes) {
+            t = Integer.toHexString(b & 0xFF);
+            if (t.length() == 1) {//1得到一位的进行补0操作
+                sb.append("0");
+            }
+            sb.append(t);
         }
-        return md5code.toString();
+        return sb.toString();
     }
 }

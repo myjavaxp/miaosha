@@ -3,15 +3,16 @@ package com.yibo.miaosha.vo;
 import com.yibo.miaosha.validator.IsMobile;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import java.util.StringJoiner;
 
 public class LoginVo {
 
-    @NotNull
+    @NotBlank(message = "手机号码不能为空")
     @IsMobile
     private String mobile;
 
-    @NotNull
+    @NotBlank(message = "密码不能为空")
     @Length(min = 32)
     private String password;
 
@@ -33,6 +34,9 @@ public class LoginVo {
 
     @Override
     public String toString() {
-        return "LoginVo [mobile=" + mobile + ", password=" + password + "]";
+        return new StringJoiner(", ", LoginVo.class.getSimpleName() + "[", "]")
+                .add("mobile='" + mobile + "'")
+                .add("password='" + password + "'")
+                .toString();
     }
 }

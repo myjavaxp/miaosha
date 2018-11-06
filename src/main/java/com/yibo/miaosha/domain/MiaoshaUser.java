@@ -1,6 +1,7 @@
 package com.yibo.miaosha.domain;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 public class MiaoshaUser {
     private Long id;
@@ -81,5 +82,19 @@ public class MiaoshaUser {
 
     public void setLoginCount(Integer loginCount) {
         this.loginCount = loginCount;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", MiaoshaUser.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("nickname='" + nickname + "'")
+                .add("password='" + password + "'")
+                .add("salt='" + salt + "'")
+                .add("head='" + head + "'")
+                .add("registerDate=" + registerDate)
+                .add("lastLoginDate=" + lastLoginDate)
+                .add("loginCount=" + loginCount)
+                .toString();
     }
 }

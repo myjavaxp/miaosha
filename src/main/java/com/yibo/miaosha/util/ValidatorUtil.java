@@ -6,12 +6,12 @@ import java.util.regex.Pattern;
 
 public class ValidatorUtil {
 
-    private static final Pattern mobile_pattern = Pattern.compile("1\\d{10}");
+    private static final Pattern MOBILE_PATTERN = Pattern.compile("1\\d{10}");
 
     public static boolean isMobile(String src) {
         if (StringUtils.isEmpty(src)) {
             return false;
         }
-        return mobile_pattern.matcher(src).matches();
+        return MOBILE_PATTERN.matcher(src).matches();
     }
 }
