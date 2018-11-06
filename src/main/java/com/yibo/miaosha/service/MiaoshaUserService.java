@@ -6,7 +6,7 @@ import com.yibo.miaosha.exception.GlobalException;
 import com.yibo.miaosha.redis.RedisService;
 import com.yibo.miaosha.redis.key.MiaoshaUserKey;
 import com.yibo.miaosha.result.CodeMsg;
-import com.yibo.miaosha.util.MD5Util;
+import com.yibo.miaosha.util.Md5Util;
 import com.yibo.miaosha.util.UUIDUtil;
 import com.yibo.miaosha.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class MiaoshaUserService {
-
-
     private static final String COOKIE_NAME_TOKEN = "token";
 
     private final MiaoshaUserMapper miaoshaUserMapper;
@@ -64,7 +62,7 @@ public class MiaoshaUserService {
         //验证密码
         String dbPass = user.getPassword();
         String saltDB = user.getSalt();
-        String calcPass = MD5Util.formPassToDBPass(formPass, saltDB);
+        String calcPass = Md5Util.formPassToDBPass(formPass, saltDB);
         if (!calcPass.equals(dbPass)) {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }

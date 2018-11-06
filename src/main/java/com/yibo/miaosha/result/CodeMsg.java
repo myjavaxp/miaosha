@@ -8,8 +8,8 @@ public class CodeMsg {
 
     //通用的错误码
     public static CodeMsg SUCCESS = new CodeMsg(200, "OK");
-    public static CodeMsg SERVER_ERROR = new CodeMsg(500100, "服务端异常");
-    public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
+    public static CodeMsg SERVER_ERROR = new CodeMsg(500, "服务器异常");
+    public static CodeMsg BIND_ERROR = new CodeMsg(400, "参数校验异常：%s");
     //登录模块 5002XX
     public static CodeMsg SESSION_ERROR = new CodeMsg(500210, "Session不存在或者已经失效");
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(500211, "登录密码不能为空");

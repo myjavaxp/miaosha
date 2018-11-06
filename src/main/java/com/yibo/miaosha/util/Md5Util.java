@@ -4,12 +4,12 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MD5Util {
+public class Md5Util {
 
-    private static final String salt = "1a2b3c4d";
+    private static final String SALT = "1a2b3c4d";
 
     private static String inputPassToFormPass(String inputPass) {
-        String str = "" + salt.charAt(0) + salt.charAt(2) + inputPass + salt.charAt(5) + salt.charAt(4);
+        String str = "" + SALT.charAt(0) + SALT.charAt(2) + inputPass + SALT.charAt(5) + SALT.charAt(4);
         return md5(str);
     }
 
