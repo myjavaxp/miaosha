@@ -5,7 +5,7 @@
 <generatorConfiguration>
 
     <classPathEntry
-            location="C:\Users\Yibo\.m2\repository\mysql\mysql-connector-java\8.0.13\mysql-connector-java-8.0.13.jar"/>
+            location="/Users/yibo/.m2/repository/mysql/mysql-connector-java/8.0.13/mysql-connector-java-8.0.13.jar"/>
 
     <context id="context" targetRuntime="MyBatis3">
         <commentGenerator>
@@ -33,7 +33,13 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <table schema="miaosha" tableName="miaosha_user" enableCountByExample="false" enableDeleteByExample="false"
+        <table schema="miaosha" tableName="goods" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table schema="miaosha" tableName="miaosha_goods" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table schema="miaosha" tableName="miaosha_order" enableCountByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" enableUpdateByExample="false"/>
+        <table schema="miaosha" tableName="order_info" enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false"/>
     </context>
 </generatorConfiguration>
