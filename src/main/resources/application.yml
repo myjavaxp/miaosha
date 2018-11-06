@@ -52,7 +52,7 @@ mybatis:
   type-aliases-package: com.yibo.miaosha.domain
   mapper-locations: classpath:/mapper/*.xml
   configuration:
-    cache-enabled: true
+    map-underscore-to-camel-case: true
 logging:
   file: /Users/yibo/Logs/miaosha.log
   level:

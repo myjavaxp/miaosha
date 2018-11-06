@@ -11,12 +11,14 @@ import com.yibo.miaosha.util.UUIDUtil;
 import com.yibo.miaosha.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Service
+@Transactional(readOnly = true)
 public class MiaoshaUserService {
     public static final String COOKIE_NAME_TOKEN = "token";
 

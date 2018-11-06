@@ -1,6 +1,9 @@
 package com.yibo.miaosha.dao;
 
 import com.yibo.miaosha.domain.Goods;
+import com.yibo.miaosha.vo.GoodsVo;
+
+import java.util.List;
 
 public interface GoodsMapper {
     int deleteByPrimaryKey(Long id);
@@ -16,4 +19,8 @@ public interface GoodsMapper {
     int updateByPrimaryKeyWithBLOBs(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
+    List<GoodsVo> listGoods();
+
+    GoodsVo getGoodsVoById(long id);
 }
