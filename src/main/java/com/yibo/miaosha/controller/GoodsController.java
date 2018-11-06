@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class GoodsController {
     @GetMapping("/to_list")
     public String list(Model model, MiaoshaUser user) {
-        if (user == null) {
-            user = new MiaoshaUser();
-        }
         model.addAttribute("user", user);
         return "goods_list";
     }

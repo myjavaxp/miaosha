@@ -20,6 +20,13 @@ public class MiaoshaUser {
 
     private Integer loginCount;
 
+    public MiaoshaUser() {
+    }
+
+    public MiaoshaUser(String nickname) {
+        this.nickname = nickname;
+    }
+
     public Long getId() {
         return id;
     }
