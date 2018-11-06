@@ -1,5 +1,7 @@
 package com.yibo.miaosha.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 import java.util.StringJoiner;
 
@@ -13,9 +15,9 @@ public class MiaoshaUser {
     private String salt;
 
     private String head;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date registerDate;
-
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date lastLoginDate;
 
     private Integer loginCount;
