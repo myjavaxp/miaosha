@@ -1,15 +1,23 @@
 package com.yibo.miaosha.controller;
 
 import com.yibo.miaosha.domain.MiaoshaUser;
+import com.yibo.miaosha.redis.RedisService;
+import com.yibo.miaosha.redis.key.GoodsKey;
 import com.yibo.miaosha.service.GoodsService;
 import com.yibo.miaosha.vo.GoodsVo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -20,15 +28,38 @@ import java.util.List;
 @Controller
 @RequestMapping("/goods")
 public class GoodsController {
-    @Resource
-    private GoodsService goodsService;
+    private final GoodsService goodsService;
+    private final ThymeleafViewResolver thymeleafViewResolver;
+    private final RedisService redisService;
+
+    @Autowired
+    public GoodsController(GoodsService goodsService, ThymeleafViewResolver thymeleafViewResolver, RedisService redisService) {
+        this.goodsService = goodsService;
+        this.thymeleafViewResolver = thymeleafViewResolver;
+        this.redisService = redisService;
+    }
 
     @GetMapping("/to_list")
-    public String list(Model model, MiaoshaUser user) {
-        model.addAttribute("user", user);
+    @ResponseBody
+    public String list(Model model, MiaoshaUser user, HttpServletRequest request, HttpServletResponse response) {
+        String html = redisService.get(GoodsKey.getGoodsList, "", String.class);
+        if (!StringUtils.isEmpty(html)) {
+            return html;
+        }
         List<GoodsVo> goodsList = goodsService.listGoodsVo();
         model.addAttribute("goodsList", goodsList);
-        return "goods_list";
+        model.addAttribute("user", user);
+        WebContext ctx = new WebContext(
+                request,
+                response,
+                request.getServletContext(),
+                request.getLocale(),
+                model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("goods_list", ctx);
+        if (!StringUtils.isEmpty(html)) {
+            redisService.set(GoodsKey.getGoodsList, "", html);
+        }
+        return html;
     }
 
     @GetMapping("/to_detail/{id}")
@@ -51,8 +82,8 @@ public class GoodsController {
         }
         model.addAttribute("miaoshaStatus", miaoshaStatus);
         model.addAttribute("remainSeconds", remainSeconds);
-        model.addAttribute("user",user);
-        model.addAttribute("goods",goods);
+        model.addAttribute("user", user);
+        model.addAttribute("goods", goods);
         return "goods_detail";
     }
 }
