@@ -63,7 +63,13 @@ public class GoodsController {
     }
 
     @GetMapping("/to_detail/{id}")
-    public String detail(@PathVariable long id, Model model, MiaoshaUser user) {
+    @ResponseBody
+    public String detail(@PathVariable long id, Model model, MiaoshaUser user, HttpServletResponse response, HttpServletRequest request) {
+        //取缓存
+        String html = redisService.get(GoodsKey.getGoodsDetail, "" + id, String.class);
+        if (!StringUtils.isEmpty(html)) {
+            return html;
+        }
         GoodsVo goods = goodsService.getGoodsVoById(id);
         long start = goods.getStartDate().getTime();
         long end = goods.getEndDate().getTime();
@@ -84,6 +90,16 @@ public class GoodsController {
         model.addAttribute("remainSeconds", remainSeconds);
         model.addAttribute("user", user);
         model.addAttribute("goods", goods);
-        return "goods_detail";
+        WebContext ctx = new WebContext(
+                request,
+                response,
+                request.getServletContext(),
+                request.getLocale(),
+                model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("goods_detail", ctx);
+        if (!StringUtils.isEmpty(html)) {
+            redisService.set(GoodsKey.getGoodsDetail, "" + id, html);
+        }
+        return html;
     }
 }
