@@ -7,6 +7,7 @@ import com.yibo.miaosha.redis.key.MiaoshaUserKey;
 import com.yibo.miaosha.util.Md5Util;
 import com.yibo.miaosha.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,11 @@ public class UserService {
     public UserService(MiaoshaUserMapper miaoshaUserMapper, RedisService redisService) {
         this.miaoshaUserMapper = miaoshaUserMapper;
         this.redisService = redisService;
+    }
+
+    @Cacheable(cacheNames = "miaoshaUser", key = "''+#id")
+    public MiaoshaUser getById(long id) {
+        return miaoshaUserMapper.selectByPrimaryKey(id);
     }
 
     @Transactional

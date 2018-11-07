@@ -1,6 +1,5 @@
 package com.yibo.miaosha.service;
 
-import com.yibo.miaosha.dao.MiaoshaUserMapper;
 import com.yibo.miaosha.domain.MiaoshaUser;
 import com.yibo.miaosha.exception.GlobalException;
 import com.yibo.miaosha.redis.RedisService;
@@ -21,21 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 @Transactional(readOnly = true)
 public class MiaoshaUserService {
     public static final String COOKIE_NAME_TOKEN = "token";
-
-    private final MiaoshaUserMapper miaoshaUserMapper;
-
     private final RedisService redisService;
+    private final UserService userService;
 
     @Autowired
-    public MiaoshaUserService(MiaoshaUserMapper miaoshaUserMapper, RedisService redisService) {
-        this.miaoshaUserMapper = miaoshaUserMapper;
+    public MiaoshaUserService(RedisService redisService, UserService userService) {
         this.redisService = redisService;
+        this.userService = userService;
     }
-
-    private MiaoshaUser getById(long id) {
-        return miaoshaUserMapper.selectByPrimaryKey(id);
-    }
-
 
     public MiaoshaUser getByToken(HttpServletResponse response, String token) {
         if (StringUtils.isEmpty(token)) {
@@ -57,7 +49,7 @@ public class MiaoshaUserService {
         String mobile = loginVo.getMobile();
         String formPass = loginVo.getPassword();
         //判断手机号是否存在
-        MiaoshaUser user = getById(Long.parseLong(mobile));
+        MiaoshaUser user = userService.getById(Long.parseLong(mobile));
         if (user == null) {
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST);
         }

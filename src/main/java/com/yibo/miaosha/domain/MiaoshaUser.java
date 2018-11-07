@@ -2,10 +2,12 @@ package com.yibo.miaosha.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.StringJoiner;
 
-public class MiaoshaUser {
+public class MiaoshaUser implements Serializable {
+    private static final long serialVersionUID = 2400585754782302900L;
     private Long id;
 
     private String nickname;
