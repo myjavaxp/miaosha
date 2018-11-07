@@ -6,7 +6,7 @@
     <groupId>com.yibo</groupId>
     <artifactId>miaosha</artifactId>
     <version>1.9</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>miaosha</name>
     <description>Demo project for Spring Boot</description>
