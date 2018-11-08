@@ -19,6 +19,11 @@ import static com.yibo.miaosha.constant.CommonConstants.*;
 @Configuration
 public class RabbitMQConfig {
     @Bean
+    public Queue miaoshaQueue() {
+        return new Queue(MIAOSHA_QUEUE, true);
+    }
+
+    @Bean
     public Queue queue() {
         return new Queue(QUEUE_NAME, true);
     }

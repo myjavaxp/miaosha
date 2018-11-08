@@ -27,7 +27,7 @@ public class GoodsService {
     }
 
     @Transactional
-    public void reduceStock(GoodsVo goods) {
-        goodsMapper.reduceStock(goods);
+    public boolean reduceStock(GoodsVo goods) {
+        return goodsMapper.reduceStock(goods) > 0;
     }
 }

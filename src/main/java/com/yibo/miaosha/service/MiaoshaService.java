@@ -20,7 +20,9 @@ public class MiaoshaService {
     }
 
     public OrderInfo miaosha(MiaoshaUser user, GoodsVo goods) {
-        goodsService.reduceStock(goods);
-        return orderService.createOrder(user, goods);
+        if (goodsService.reduceStock(goods)) {
+            return orderService.createOrder(user, goods);
+        }
+        return null;
     }
 }

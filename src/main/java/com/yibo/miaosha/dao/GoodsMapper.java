@@ -24,5 +24,5 @@ public interface GoodsMapper {
 
     GoodsVo getGoodsVoById(long id);
 
-    void reduceStock(GoodsVo goods);
+    int reduceStock(GoodsVo goods);
 }

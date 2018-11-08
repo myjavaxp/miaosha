@@ -5,8 +5,11 @@ import com.yibo.miaosha.dao.OrderInfoMapper;
 import com.yibo.miaosha.domain.MiaoshaOrder;
 import com.yibo.miaosha.domain.MiaoshaUser;
 import com.yibo.miaosha.domain.OrderInfo;
+import com.yibo.miaosha.redis.RedisService;
+import com.yibo.miaosha.redis.key.OrderKey;
 import com.yibo.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
     private final MiaoshaOrderMapper miaoshaOrderMapper;
     private final OrderInfoMapper orderInfoMapper;
+    @Autowired
+    private RedisService redisService;
 
     @Autowired
     public OrderService(MiaoshaOrderMapper miaoshaOrderMapper, OrderInfoMapper orderInfoMapper) {
@@ -22,6 +27,7 @@ public class OrderService {
         this.orderInfoMapper = orderInfoMapper;
     }
 
+    @Cacheable(cacheNames = "alreadyBuy", key = "#userId+':'+#goodsId")
     public MiaoshaOrder getOne(long userId, long goodsId) {
         return miaoshaOrderMapper.getOne(userId, goodsId);
     }
@@ -37,7 +43,9 @@ public class OrderService {
         orderInfo.setOrderChannel(Byte.valueOf("1"));
         orderInfo.setUserId(user.getId());
         orderInfoMapper.insert(orderInfo);
-        miaoshaOrderMapper.insertSelective(new MiaoshaOrder(user.getId(), orderInfo.getId(), goods.getId()));
+        MiaoshaOrder miaoshaOrder = new MiaoshaOrder(user.getId(), orderInfo.getId(), goods.getId());
+        miaoshaOrderMapper.insertSelective(miaoshaOrder);
+        redisService.set(OrderKey.getMiaoshaOrderByUidGid, user.getId() + "_" + goods.getId(), miaoshaOrder);
         return orderInfo;
     }
 }
