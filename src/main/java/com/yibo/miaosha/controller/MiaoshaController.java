@@ -8,15 +8,14 @@ import com.yibo.miaosha.redis.key.GoodsKey;
 import com.yibo.miaosha.result.CodeMsg;
 import com.yibo.miaosha.result.Result;
 import com.yibo.miaosha.service.GoodsService;
+import com.yibo.miaosha.service.MiaoshaService;
 import com.yibo.miaosha.service.OrderService;
 import com.yibo.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,14 +26,15 @@ public class MiaoshaController implements InitializingBean {
     private final OrderService orderService;
     private final RedisService redisService;
     private final Sender sender;
-
+    private final MiaoshaService miaoshaService;
 
     @Autowired
-    public MiaoshaController(GoodsService goodsService, OrderService orderService, RedisService redisService, Sender sender) {
+    public MiaoshaController(GoodsService goodsService, OrderService orderService, RedisService redisService, Sender sender, MiaoshaService miaoshaService) {
         this.goodsService = goodsService;
         this.orderService = orderService;
         this.redisService = redisService;
         this.sender = sender;
+        this.miaoshaService = miaoshaService;
     }
 
     /**
@@ -45,12 +45,13 @@ public class MiaoshaController implements InitializingBean {
      * @return 秒杀结果
      */
     @PostMapping("/do_miaosha")
+    @ResponseBody
     public Result<Void> miaosha(@RequestParam long goodsId, MiaoshaUser user) {
         if (user.getNickname().equals("游客")) {
-            return Result.error(CodeMsg.SERVER_ERROR);
+            return Result.error(CodeMsg.SESSION_ERROR);
         }
         //判断库存
-        Long stock = redisService.decr(GoodsKey.goodsStock, "" + goodsId);
+        long stock = redisService.decr(GoodsKey.goodsStock, "" + goodsId);
         if (stock < 0) {
             return Result.error(CodeMsg.MIAOSHA_OVER);
         }
@@ -77,6 +78,15 @@ public class MiaoshaController implements InitializingBean {
         model.addAttribute("orderInfo", orderInfo);
         model.addAttribute("goods", goods);
         return "order_detail";*/
+    }
+
+    @GetMapping("/result")
+    @ResponseBody
+    public Result<Long> result(@RequestParam long goodsId, MiaoshaUser user) {
+        if (user.getNickname().equals("游客")) {
+            return Result.error(CodeMsg.SESSION_ERROR);
+        }
+        return Result.success(miaoshaService.getMiaoshaResult(goodsId, user.getId()));
     }
 
     @Override

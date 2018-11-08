@@ -64,5 +64,6 @@ logging:
   file: /Users/yibo/Logs/miaosha.log
   level:
     root: info
+    com.yibo.miaosha.dao: debug
 server:
   port: 80

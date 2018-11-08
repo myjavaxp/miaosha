@@ -10,6 +10,8 @@ import java.util.Map;
 import static com.yibo.miaosha.constant.CommonConstants.*;
 
 /**
+ * docker 新建rabbitmq
+ * docker run -it -p 4369:4369 -p 5671:5671 -p 5672:5672 -p 15672:15672 -p 25672:25672  -d --name rabbitmq rabbitmq
  * 后台方式启动RabbitMQ
  * sudo rabbitmq-server -detached
  * 启用web控制台

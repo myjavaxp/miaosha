@@ -1,6 +1,9 @@
 package com.yibo.miaosha.domain;
 
-public class MiaoshaOrder {
+import java.io.Serializable;
+
+public class MiaoshaOrder implements Serializable {
+    private static final long serialVersionUID = 1002947664829481190L;
     private Long id;
 
     private Long userId;
