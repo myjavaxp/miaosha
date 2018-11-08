@@ -18,13 +18,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrderService {
     private final MiaoshaOrderMapper miaoshaOrderMapper;
     private final OrderInfoMapper orderInfoMapper;
-    @Autowired
-    private RedisService redisService;
+    private final RedisService redisService;
 
     @Autowired
-    public OrderService(MiaoshaOrderMapper miaoshaOrderMapper, OrderInfoMapper orderInfoMapper) {
+    public OrderService(MiaoshaOrderMapper miaoshaOrderMapper, OrderInfoMapper orderInfoMapper, RedisService redisService) {
         this.miaoshaOrderMapper = miaoshaOrderMapper;
         this.orderInfoMapper = orderInfoMapper;
+        this.redisService = redisService;
     }
 
     @Cacheable(cacheNames = "alreadyBuy", key = "#userId+':'+#goodsId")
