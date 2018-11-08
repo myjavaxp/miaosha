@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.yibo.miaosha.constant.RedisConstants.FEATURES;
+import static com.yibo.miaosha.constant.CommonConstants.FEATURES;
 
 /**
  * 一个适用于key-value的Redis工具类
