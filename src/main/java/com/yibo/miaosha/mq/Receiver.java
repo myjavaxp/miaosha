@@ -26,7 +26,7 @@ public class Receiver {
         LOGGER.info("topic2收到消息:{}", message);
     }
 
-    @RabbitListener(queues = HEARDERS_QUEUE)
+    @RabbitListener(queues = HEADERS_QUEUE)
     public void receiveHeader(byte[] message) {
         LOGGER.info("header queue收到消息:{}", new String(message));
     }

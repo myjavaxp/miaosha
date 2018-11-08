@@ -35,7 +35,7 @@ public class RabbitMQConfig {
 
     @Bean
     public Queue headerQueue() {
-        return new Queue(HEARDERS_QUEUE, true);
+        return new Queue(HEADERS_QUEUE, true);
     }
 
     @Bean
