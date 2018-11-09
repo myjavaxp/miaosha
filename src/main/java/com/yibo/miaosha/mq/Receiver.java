@@ -30,7 +30,7 @@ public class Receiver {
 
     @RabbitListener(queues = MIAOSHA_QUEUE)
     public void receiveMiaosha(String message) {
-        LOGGER.info("收到秒杀消息:{}", message);
+        LOGGER.debug("收到秒杀消息:{}", message);
         MiaoshaMessage mm = JSON.parseObject(message, MiaoshaMessage.class);
         MiaoshaUser user = mm.getUser();
         long goodsId = mm.getGoodsId();

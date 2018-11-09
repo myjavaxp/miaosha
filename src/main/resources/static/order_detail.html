@@ -48,7 +48,7 @@
         </tr>
         <tr>
             <td>收货人</td>
-            <td colspan="2">XXX 18812341234</td>
+            <td colspan="2">18812341234</td>
         </tr>
         <tr>
             <td>收货地址</td>
@@ -65,7 +65,7 @@
         $("#goodsName").text(goods.goodsName);
         $("#goodsImg").attr("src", goods.goodsImg);
         $("#orderPrice").text(order.goodsPrice);
-        $("#createDate").text(new Date(order.createDate).format("yyyy-MM-dd hh:mm:ss"));
+        $("#createDate").text(order.createDate);
         let status = "";
         if (order.status === 0) {
             status = "未支付"
