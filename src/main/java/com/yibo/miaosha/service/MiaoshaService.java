@@ -33,6 +33,7 @@ public class MiaoshaService {
         }
     }
 
+    @Transactional(readOnly = true)
     public long getMiaoshaResult(long goodsId, long userId) {
         MiaoshaOrder one = orderService.getOne(userId, goodsId);
         if (one != null) {

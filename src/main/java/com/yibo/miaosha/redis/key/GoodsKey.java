@@ -6,7 +6,5 @@ public class GoodsKey extends BasePrefix {
         super(expireSeconds, prefix);
     }
 
-    public static GoodsKey getGoodsList = new GoodsKey(60L, "gl");
-    public static GoodsKey getGoodsDetail = new GoodsKey(60L, "gd");
     public static GoodsKey goodsStock = new GoodsKey(0L, "gs");
 }
