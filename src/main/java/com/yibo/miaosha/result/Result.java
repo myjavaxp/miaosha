@@ -19,9 +19,17 @@ public class Result<T> {
         return new Result<>(cm);
     }
 
+    public static <T> Result<T> error(int code, String msg) {
+        return new Result<>(code, msg, null);
+    }
+
     private Result(T data) {
-        this.code = 200;
-        this.msg = "OK";
+        this(200, "OK", data);
+    }
+
+    private Result(int code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
         this.data = data;
     }
 

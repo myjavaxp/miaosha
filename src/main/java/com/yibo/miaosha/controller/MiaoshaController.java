@@ -13,13 +13,12 @@ import com.yibo.miaosha.service.OrderService;
 import com.yibo.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/miaosha")
 public class MiaoshaController implements InitializingBean {
     private final GoodsService goodsService;
@@ -45,7 +44,6 @@ public class MiaoshaController implements InitializingBean {
      * @return 秒杀结果
      */
     @PostMapping("/do_miaosha")
-    @ResponseBody
     public Result<Void> miaosha(@RequestParam long goodsId, MiaoshaUser user) {
         if (user.getNickname().equals("游客")) {
             return Result.error(CodeMsg.SESSION_ERROR);
@@ -81,7 +79,6 @@ public class MiaoshaController implements InitializingBean {
     }
 
     @GetMapping("/result")
-    @ResponseBody
     public Result<Long> result(@RequestParam long goodsId, MiaoshaUser user) {
         if (user.getNickname().equals("游客")) {
             return Result.error(CodeMsg.SESSION_ERROR);

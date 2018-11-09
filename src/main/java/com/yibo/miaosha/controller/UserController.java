@@ -4,15 +4,14 @@ import com.yibo.miaosha.domain.MiaoshaUser;
 import com.yibo.miaosha.result.Result;
 import com.yibo.miaosha.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
@@ -23,13 +22,11 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    @ResponseBody
     public Result<MiaoshaUser> info(MiaoshaUser user) {
         return Result.success(user);
     }
 
     @GetMapping("/{count}")
-    @ResponseBody
     public Result<Void> init(@PathVariable int count) throws IOException {
         userService.init(count);
         return Result.success(null);

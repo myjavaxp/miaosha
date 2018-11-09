@@ -6,11 +6,10 @@ import com.yibo.miaosha.service.GoodsService;
 import com.yibo.miaosha.vo.GoodsDetailVo;
 import com.yibo.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ import java.util.List;
  *
  * @author yibo
  */
-@Controller
+@RestController
 @RequestMapping("/goods")
 public class GoodsController {
     private final GoodsService goodsService;
@@ -30,13 +29,11 @@ public class GoodsController {
     }
 
     @GetMapping("/to_list")
-    @ResponseBody
     public Result<List<GoodsVo>> list() {
         return Result.success(goodsService.listGoodsVo());
     }
 
     @GetMapping(value = "/detail/{goodsId}")
-    @ResponseBody
     public Result<GoodsDetailVo> detail(MiaoshaUser user,
                                         @PathVariable long goodsId) {
         GoodsVo goods = goodsService.getGoodsVoById(goodsId);
