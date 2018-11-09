@@ -23,6 +23,10 @@ public class Result<T> {
         return new Result<>(code, msg, null);
     }
 
+    public static <T> Result<T> error(String msg) {
+        return new Result<>(400, msg, null);
+    }
+
     private Result(T data) {
         this(200, "OK", data);
     }
