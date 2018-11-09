@@ -19,4 +19,12 @@ public interface MiaoshaUserMapper {
     int updateByPrimaryKey(MiaoshaUser record);
 
     void addUsers(@Param("list") List<MiaoshaUser> list);
+
+    void initGoods();
+
+    void initMiaoshaGoods();
+
+    void initOrder();
+
+    void initMiaoshaOrder();
 }

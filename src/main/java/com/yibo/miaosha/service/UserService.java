@@ -3,13 +3,18 @@ package com.yibo.miaosha.service;
 import com.yibo.miaosha.dao.MiaoshaUserMapper;
 import com.yibo.miaosha.domain.MiaoshaUser;
 import com.yibo.miaosha.redis.RedisService;
+import com.yibo.miaosha.redis.key.GoodsKey;
 import com.yibo.miaosha.redis.key.MiaoshaUserKey;
 import com.yibo.miaosha.util.Md5Util;
 import com.yibo.miaosha.util.UUIDUtil;
+import com.yibo.miaosha.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisCallback;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,11 +27,15 @@ import java.util.Random;
 public class UserService {
     private final MiaoshaUserMapper miaoshaUserMapper;
     private final RedisService redisService;
+    private final StringRedisTemplate stringRedisTemplate;
+    private final GoodsService goodsService;
 
     @Autowired
-    public UserService(MiaoshaUserMapper miaoshaUserMapper, RedisService redisService) {
+    public UserService(MiaoshaUserMapper miaoshaUserMapper, RedisService redisService, StringRedisTemplate stringRedisTemplate, GoodsService goodsService) {
         this.miaoshaUserMapper = miaoshaUserMapper;
         this.redisService = redisService;
+        this.stringRedisTemplate = stringRedisTemplate;
+        this.goodsService = goodsService;
     }
 
     @Cacheable(cacheNames = "miaoshaUser", key = "''+#id")
@@ -35,7 +44,20 @@ public class UserService {
     }
 
     @Transactional
-    public void addUsers(int count) throws IOException {
+    public void init(int count) throws IOException {
+        miaoshaUserMapper.initGoods();
+        miaoshaUserMapper.initMiaoshaGoods();
+        miaoshaUserMapper.initOrder();
+        miaoshaUserMapper.initMiaoshaOrder();
+        stringRedisTemplate.execute((RedisCallback<Void>) connection -> {
+            connection.flushDb();
+            connection.flushAll();
+            return null;
+        });
+        List<GoodsVo> list = goodsService.listGoodsVo();
+        if (!CollectionUtils.isEmpty(list)) {
+            list.forEach(e -> redisService.set(GoodsKey.goodsStock, e.getId().toString(), e.getStockCount()));
+        }
         List<MiaoshaUser> users = new ArrayList<>(count);
         int r = new Random().nextInt(100000);
         //生成用户

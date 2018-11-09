@@ -28,11 +28,6 @@ public class LoginController {
         this.userService = userService;
     }
 
-    @GetMapping("/to_login")
-    public String toLogin() {
-        return "login";
-    }
-
     @PostMapping("/do_login")
     @ResponseBody
     public Result<Boolean> doLogin(HttpServletResponse response, @Valid LoginVo loginVo) {

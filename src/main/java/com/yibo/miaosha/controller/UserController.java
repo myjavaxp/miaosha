@@ -30,8 +30,8 @@ public class UserController {
 
     @GetMapping("/{count}")
     @ResponseBody
-    public Result<Void> count(@PathVariable int count) throws IOException {
-        userService.addUsers(count);
+    public Result<Void> init(@PathVariable int count) throws IOException {
+        userService.init(count);
         return Result.success(null);
     }
 }

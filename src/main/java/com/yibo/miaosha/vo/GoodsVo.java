@@ -1,5 +1,6 @@
 package com.yibo.miaosha.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.yibo.miaosha.domain.Goods;
 
 import java.math.BigDecimal;
@@ -7,9 +8,9 @@ import java.util.Date;
 
 public class GoodsVo extends Goods {
     private Integer stockCount;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
-
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     private BigDecimal miaoshaPrice;

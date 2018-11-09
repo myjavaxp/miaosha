@@ -137,4 +137,18 @@
             (#{user.id},#{user.nickname},#{user.password},#{user.salt},#{user.head},#{user.lastLoginDate})
         </foreach>
     </insert>
+    <update id="initGoods">
+        update goods
+        set goods_stock = 1000
+    </update>
+    <update id="initMiaoshaGoods">
+        update miaosha_goods
+        set stock_count = 1000
+    </update>
+    <update id="initOrder">
+        truncate table order_info
+    </update>
+    <update id="initMiaoshaOrder">
+        truncate table miaosha_order
+    </update>
 </mapper>

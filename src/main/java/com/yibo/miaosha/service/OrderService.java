@@ -27,7 +27,7 @@ public class OrderService {
         this.redisService = redisService;
     }
 
-    @Cacheable(cacheNames = "alreadyBuy", key = "#userId+':'+#goodsId")
+    @Cacheable(cacheNames = "alreadyBuy", key = "#userId+':'+#goodsId", unless = "#result == null")
     public MiaoshaOrder getOne(long userId, long goodsId) {
         return miaoshaOrderMapper.getOne(userId, goodsId);
     }
