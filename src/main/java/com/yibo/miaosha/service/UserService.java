@@ -45,6 +45,7 @@ public class UserService {
 
     @Transactional
     public void init(int count) throws IOException {
+        miaoshaUserMapper.initUser();
         miaoshaUserMapper.initGoods();
         miaoshaUserMapper.initMiaoshaGoods();
         miaoshaUserMapper.initOrder();

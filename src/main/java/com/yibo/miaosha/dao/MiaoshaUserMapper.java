@@ -27,4 +27,6 @@ public interface MiaoshaUserMapper {
     void initOrder();
 
     void initMiaoshaOrder();
+
+    void initUser();
 }

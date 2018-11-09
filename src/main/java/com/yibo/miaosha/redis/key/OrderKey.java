@@ -1,7 +1,7 @@
 package com.yibo.miaosha.redis.key;
 
 public class OrderKey extends BasePrefix {
-    public OrderKey(String prefix) {
+    private OrderKey(String prefix) {
         super(prefix);
     }
 

@@ -151,4 +151,7 @@
     <update id="initMiaoshaOrder">
         truncate table miaosha_order
     </update>
+    <update id="initUser">
+        truncate table miaosha_user
+    </update>
 </mapper>
