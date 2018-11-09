@@ -1,6 +1,6 @@
 package com.yibo.miaosha.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,9 +17,9 @@ public class MiaoshaUser implements Serializable {
     private String salt;
 
     private String head;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date registerDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date lastLoginDate;
 
     private Integer loginCount;

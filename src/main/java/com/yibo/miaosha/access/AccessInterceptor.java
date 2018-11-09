@@ -2,6 +2,7 @@ package com.yibo.miaosha.access;
 
 import com.alibaba.fastjson.JSON;
 import com.yibo.miaosha.config.UserArgumentResolver;
+import com.yibo.miaosha.constant.CommonConstants;
 import com.yibo.miaosha.domain.MiaoshaUser;
 import com.yibo.miaosha.redis.RedisService;
 import com.yibo.miaosha.redis.key.AccessKey;
@@ -22,7 +23,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 顺便代替掉{@link UserArgumentResolver}
+ * 并不能代替掉{@link UserArgumentResolver}
  *
  * @author yibo
  */
@@ -42,8 +43,8 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        MiaoshaUser user = getUser(request, response);
         if (handler instanceof HandlerMethod) {
-            MiaoshaUser user = getUser(request, response);
             UserContext.setUser(user);
             HandlerMethod hm = (HandlerMethod) handler;
             AccessLimit accessLimit = hm.getMethodAnnotation(AccessLimit.class);
@@ -55,7 +56,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
             boolean needLogin = accessLimit.needLogin();
             String key = request.getRequestURI();
             if (needLogin) {
-                if (user == null) {
+                if (user == null || user.getNickname().equals("游客")) {
                     render(response, CodeMsg.SESSION_ERROR);
                     return false;
                 }
@@ -78,7 +79,7 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
     private void render(HttpServletResponse response, CodeMsg cm) throws Exception {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         OutputStream out = response.getOutputStream();
-        String str = JSON.toJSONString(Result.error(cm));
+        String str = JSON.toJSONString(Result.error(cm), CommonConstants.FEATURES);
         out.write(str.getBytes(StandardCharsets.UTF_8));
         out.flush();
         out.close();
@@ -88,15 +89,16 @@ public class AccessInterceptor extends HandlerInterceptorAdapter {
         String paramToken = request.getParameter(MiaoshaUserService.COOKIE_NAME_TOKEN);
         String cookieToken = getCookieValue(request);
         if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken)) {
-            return null;
+            return new MiaoshaUser("游客");
         }
         String token = StringUtils.isEmpty(paramToken) ? cookieToken : paramToken;
-        return userService.getByToken(response, token);
+        MiaoshaUser user = userService.getByToken(response, token);
+        return user == null ? new MiaoshaUser("游客") : user;
     }
 
     private String getCookieValue(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null || cookies.length <= 0) {
+        if (cookies == null || cookies.length < 1) {
             return null;
         }
         for (Cookie cookie : cookies) {

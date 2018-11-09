@@ -1,6 +1,6 @@
 package com.yibo.miaosha.domain;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -23,7 +23,7 @@ public class OrderInfo {
     private Byte orderChannel;
 
     private Byte status;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     private Date payDate;

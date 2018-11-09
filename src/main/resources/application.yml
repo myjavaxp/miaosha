@@ -51,8 +51,8 @@ spring:
       time-to-live: 60000ms
   rabbitmq:
     host: 127.0.0.1
-  jackson:
-    time-zone: GMT+8
+#  jackson:
+#    time-zone: GMT+8
 mybatis:
   type-aliases-package: com.yibo.miaosha.domain
   mapper-locations: classpath:/mapper/*.xml

@@ -1,5 +1,6 @@
 package com.yibo.miaosha.controller;
 
+import com.yibo.miaosha.access.AccessLimit;
 import com.yibo.miaosha.domain.MiaoshaUser;
 import com.yibo.miaosha.result.Result;
 import com.yibo.miaosha.service.GoodsService;
@@ -29,6 +30,7 @@ public class GoodsController {
     }
 
     @GetMapping("/to_list")
+    @AccessLimit(seconds = 20, maxCount = 5, needLogin = false)
     public Result<List<GoodsVo>> list() {
         return Result.success(goodsService.listGoodsVo());
     }

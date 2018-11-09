@@ -110,7 +110,7 @@ public class MiaoshaController implements InitializingBean {
     @ResponseBody
     public Result<String> getMiaoshaPath(MiaoshaUser user,
                                          @RequestParam long goodsId,
-                                         @RequestParam(defaultValue = "0") int verifyCode) {
+                                         @RequestParam int verifyCode) {
         if (user.getNickname().equals("游客")) {
             return Result.error(CodeMsg.SESSION_ERROR);
         }

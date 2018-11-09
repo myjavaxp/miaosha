@@ -1,6 +1,6 @@
 package com.yibo.miaosha.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.yibo.miaosha.domain.Goods;
 
 import java.io.Serializable;
@@ -10,9 +10,9 @@ import java.util.Date;
 public class GoodsVo extends Goods implements Serializable {
     private static final long serialVersionUID = -7632143707200625511L;
     private Integer stockCount;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     private BigDecimal miaoshaPrice;
