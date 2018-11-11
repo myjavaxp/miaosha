@@ -60,14 +60,14 @@ public class MiaoshaController implements InitializingBean {
         if (!check) {
             return Result.error(CodeMsg.REQUEST_ILLEGAL);
         }
+        //判定是否重复秒杀
+        if (orderService.getOne(user.getId(), goodsId) != null) {
+            return Result.error(CodeMsg.REPEAT_MIAOSHA);
+        }
         //判断库存
         long stock = redisService.decr(GoodsKey.goodsStock, "" + goodsId);
         if (stock < 0) {
             return Result.error(CodeMsg.MIAOSHA_OVER);
-        }
-        //判定是否重复秒杀
-        if (orderService.getOne(user.getId(), goodsId) != null) {
-            return Result.error(CodeMsg.REPEAT_MIAOSHA);
         }
         MiaoshaMessage mm = new MiaoshaMessage(user, goodsId);
         sender.sendMiaoshaMessage(mm);
