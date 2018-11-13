@@ -40,7 +40,7 @@ public class Sender {
 
     public void sendHeaders(Object message) {
         String msg = JSON.toJSONString(message, FEATURES);
-        LOGGER.debug("发送fanout消息:{}", message);
+        LOGGER.debug("发送header消息:{}", message);
         MessageProperties mp = new MessageProperties();
         mp.setHeader("header1", "value1");
         mp.setHeader("header2", "value2");
