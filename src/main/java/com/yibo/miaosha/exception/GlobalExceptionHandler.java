@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.validation.BindException;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,13 +47,10 @@ public class GlobalExceptionHandler implements ErrorController {
             return Result.error(ex.getCm());
         }
         if (e instanceof BindException) {
-            BindException ex = (BindException) e;
-            List<ObjectError> errors = ex.getAllErrors();
-            String[] error = new String[errors.size()];
-            for (int i = 0; i < errors.size(); i++) {
-                error[i] = errors.get(i).getDefaultMessage();
-            }
-            return Result.error(CodeMsg.BIND_ERROR.fillArgs(error));
+            return getResponse(((BindException) e).getBindingResult());
+        }
+        if (e instanceof MethodArgumentNotValidException) {
+            return getResponse(((MethodArgumentNotValidException) e).getBindingResult());
         }
         WebRequest webRequest = new ServletWebRequest(request);
         Map<String, Object> errorAttributes = this.errorAttributes.getErrorAttributes(webRequest, false);
@@ -69,5 +68,14 @@ public class GlobalExceptionHandler implements ErrorController {
             return INTERNAL_SERVER_ERROR.value();
         }
         return statusCode;
+    }
+
+    private Result<Void> getResponse(BindingResult result) {
+        List<FieldError> errors = result.getFieldErrors();
+        String[] error = new String[errors.size()];
+        for (int i = 0; i < errors.size(); i++) {
+            error[i] = errors.get(i).getDefaultMessage();
+        }
+        return Result.error(CodeMsg.BIND_ERROR.fillArgs(error));
     }
 }
